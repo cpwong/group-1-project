@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export const API = axios.create({
-  baseURL:'http://localhost:3300'
-});
+// export const API = axios.create({
+//   baseURL:'http://localhost:3300'
+// });
 
 /*
   Create a .env.local file with the content:
@@ -16,11 +16,11 @@ export const API = axios.create({
 
 */
 
-// export const API2 = axios.create({
-//   baseURL:'https://mboum-finance.p.rapidapi.com',
-//   headers: {
-//     'x-rapidapi-host': 'mboum-finance.p.rapidapi.com',
-//     'x-rapidapi-key': process.env.REACT_APP_API_KEY
-//   }    
-// })
+export const API_Finance = axios.create({
+  baseURL:'https://mboum-finance.p.rapidapi.com',
+  headers: {
+    'x-rapidapi-host': 'mboum-finance.p.rapidapi.com',
+    'x-rapidapi-key': process.env.REACT_APP_API_KEY
+  }    
+})
 
