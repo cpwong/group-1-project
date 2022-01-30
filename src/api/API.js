@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-// export const API = axios.create({
-//   baseURL:'http://localhost:3300'
-// });
+export const API_Json = axios.create({
+  baseURL:'http://localhost:3300'
+});
 
 /*
   Create a .env.local file with the content:

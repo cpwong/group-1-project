@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import { API_Finance } from './../api/API'
+import { API_Finance, API_Json } from './../api/API'
 import ViewStock from './TabStocks/ViewStock'
 import ViewChart from './TabStocks/ViewChart'
+import ViewGauge from './TabStocks/ViewGauge'
 
 const dummyData = {
   ask: 161.68,
@@ -65,14 +66,16 @@ export default function TabStocks() {
     fwdPe: 0,
     pe: 0
   }
-  const [stockData, setStockData] = useState(blankStock);   // Stores stock data from API
+  const [stockData, setStockData] = useState({});           // Stores stock data from API
   const [chartData, setChartData] = useState([]);           // Stores stock historical price data from API
   const [formItem, setFormItem] = useState(blankForm);      // Query form input
   const [symbol, setSymbol] = useState(null)                // Stock symbol to query
-  const [isStockReady, setIsStockReady] = useState(false);
-  const [isChartReady, setIsChartReady] = useState(false);
+  const [isStockReady, setIsStockReady] = useState(false);  // Stock data is ready for viewing
+  const [isChartReady, setIsChartReady] = useState(false);  // Chart data is ready for viewing
+  const [isLiveData, setIsLiveData] = useState(false);      // true =  from API server, false = from JSON-server
 
   //-- DUMMY Fetch stock data from API
+  /*
   const dummyGetStockData = () => {
     const d = dummyData
     setStockData({
@@ -85,33 +88,69 @@ export default function TabStocks() {
       avgVol: d.averageDailyVolume3Month,
       mktCap: d.marketCap,
       fwdPe: d.forwardPE,
-      pe: d.trailingPE
+      pe: d.trailingPE,
+  
     });  
+  }
+  */
+  //-- Saves stock data into data.json file runnng on local JSON-server 
+  const apiPutStockData = async (obj) => {
+    console.log('apiPutStockData', obj);
+    try {
+      const response = await API_Json.put(`/stock-data/${obj.symbol}`, obj);
+      console.log('API.put response:', response);
+    } catch (err) {
+      console.log(obj.symbol,'not found on local JSON-server. Adding new record...');
+      try {
+        const response = await API_Json.post(`/stock-data`, obj);
+        console.log('API.put response:', response);  
+      } catch (err) {
+        console.log('API.put error:', err.message);
+      }
+    }  
   }
   //-- Fetch stock data from API
   const apiGetStockData = async (symbol) => {
-    const { status, data } = await API_Finance.get(`/qu/quote?symbol=${symbol}`);
-    console.log('data', data);
+    console.log('apiGetStockData from...');
     setIsStockReady(false)
-    if (status === 200) {
-      console.log('apiGetStockData:', data[0]);
-      const d = data[0];
-      const temp = {
-        name: d.longName, 
-        bid: d.bid,
-        ask: d.ask,
-        change: d.regularMarketChange,
-        chgPct: d.regularMarketChangePercent,
-        dayVol: d.regularMarketVolume,
-        avgVol: d.averageDailyVolume3Month,
-        mktCap: d.marketCap,
-        fwdPe: d.forwardPE,
-        pe: d.trailingPE
+    if (isLiveData) {
+      const { status, data } = await API_Finance.get(`/qu/quote?symbol=${symbol}`);
+      if (status === 200) {
+        console.log('... from API_Finance:', data[0]);
+        const d = data[0];
+        const obj = {
+          id: symbol,
+          name: d.longName, 
+          bid: d.bid,
+          ask: d.ask,
+          change: d.regularMarketChange,
+          chgPct: d.regularMarketChangePercent,
+          dayVol: d.regularMarketVolume,
+          avgVol: d.averageDailyVolume3Month,
+          mktCap: d.marketCap,
+          fwdPe: d.forwardPE,
+          pe: d.trailingPE,
+          fiftyDMA: d.fiftyDayAverage,
+          twoHunDMA: d.twoHundredDayAverage,
+          yearHi: d.fiftyTwoWeekHigh,
+          yearLo: d.fiftyTwoWeekLow    
         }
-      setStockData(temp);
-      setIsStockReady(true)
-    } else {
-      console.log(`apiGetStockData ${symbol} API_Finance.get Error: ${status}`);
+        setStockData(obj);
+        setIsStockReady(true)
+        apiPutStockData(obj);
+      } else {
+        console.log(`apiGetStockData ${symbol} API_Finance.get Error: ${status}`);
+        return;
+      }  
+    } else {  // (isLiveData === false)
+      const { status, data } = await API_Json.get(`/stock-data/${symbol}`);
+      if (status === 200) {
+        console.log('... from JSON server', data);
+        setStockData(data);
+        setIsStockReady(true)
+      } else {
+        console.log(`apiGetStockData ${symbol} API_Finance.get Error: ${status}`);
+      }  
     }
   }
   //-- Fetch stock history price data from API
@@ -123,7 +162,6 @@ export default function TabStocks() {
       console.log('apiGetStockHistory:', data.items);
       const array = [];
       for (const id in data.items) {
-        // array.push(data.items[id]);
         array.push({...data.items[id], date: parseInt(id, 10)*1000});
       }
       console.log('setChartData', array);
@@ -138,7 +176,7 @@ export default function TabStocks() {
   const handleSubmit = async () => {
     console.log('handlerSubmit:');
     setSymbol(formItem.symbol);
-    
+    setFormItem(blankForm);
   }
   //-- Handler for input field boxes
   const handleInput = e => {
@@ -163,7 +201,7 @@ export default function TabStocks() {
   }, [symbol])
   
   return (
-    <div className='TabStocks block'>
+    <div className='TabStocks box'>
       <div className='columns'>
         <div className='column'>
         <div className='field has-addons'>
@@ -189,6 +227,35 @@ export default function TabStocks() {
         </div>
       </div>
       { isStockReady && <ViewStock data={stockData} /> }
+      { 
+        isStockReady && 
+        <>
+          <span className='heading has-text-centered'>Relative 52-week High/Low Range</span>
+          <div className='columns multi-line'>
+            <div className='column'><ViewGauge 
+              id='bid'
+              value={stockData.bid} 
+              high={stockData.yearHi} 
+              low={stockData.yearLo} />
+              <p className='heading has-text-centered'>Last Price</p>
+            </div>
+            <div className='column'><ViewGauge 
+              id='fiftyDMA'
+              value={stockData.fiftyDMA} 
+              high={stockData.yearHi} 
+              low={stockData.yearLo} />
+              <p className='heading has-text-centered'>50-day Moving Avg</p>
+            </div>
+            <div className='column'><ViewGauge 
+              id='TwoHunDMA'
+              value={stockData.twoHunDMA} 
+              high={stockData.yearHi} 
+              low={stockData.yearLo} />
+              <p className='heading has-text-centered'>200-day Moving Avg</p>
+            </div>
+          </div>
+        </>
+      }      
       { isChartReady && <ViewChart data={chartData} symbol={symbol} />}
     </div>
   );

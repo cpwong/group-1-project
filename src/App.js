@@ -35,7 +35,7 @@ function App() {
   return (
     <section className='App section content'>
       <h1 className='title is-1 has-text-centered'>Project Name</h1>
-      <div className='tabs is-toggle is-fullwidth'>
+      <div className='tabs is-toggle is-centered'>
         <ul>
           <li>
             <a className='navbar-item' onClick={() => setActiveTab('home')}>🏠Home</a>

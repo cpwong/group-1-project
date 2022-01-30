@@ -581,8 +581,8 @@ export default function ViewChart(props) {
   const { symbol } = props;
   console.log('StockChart', chartData);
   
-  useEffect(() => {
-    let root = am5.Root.new('chartdiv');
+  useEffect( () => {
+    let root = am5.Root.new('stockchart');
 
     //---- INSERT Chart code here ----//
     if (chartData) {
@@ -730,7 +730,7 @@ export default function ViewChart(props) {
 
       // Pre-zooming to date range
       series.events.once("datavalidated", ev => {
-        ev.target.get("xAxis").zoomToDates(new Date(2019, 0, 1), new Date());
+        ev.target.get("xAxis").zoomToDates(new Date(2021, 0, 1), new Date());
       });
 
     }
@@ -744,7 +744,7 @@ export default function ViewChart(props) {
   return (
     <div className='ViewChart block'>
       <h2 className='heading has-text-right has-text-weight-light'>Daily Price Chart</h2>
-      <div id='chartdiv' style={{ width: '100%', height: '500px' }} />
+      <div id='stockchart' style={{ width: '100%', height: '700px' }} />
     </div>
   );
 }

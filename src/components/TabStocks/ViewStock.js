@@ -3,18 +3,20 @@ import React, { useEffect } from 'react';
 export default function ViewStock(props) {
   // Add the default values when creating Edit function
   const { data: stock } = props;
-  console.log('Viewstock', stock);
   const shortNum = (num) => {
     return(
       new Intl.NumberFormat( 'en-US', {
-        maximumFractionDigits: 1,
+        maximumFractionDigits: 2,
         notation: "compact", 
         compactDisplay: "short" 
       }).format(num));
   }
-  
+  useEffect( () => {
+    // console.log('Viewstock.useEffect', stock);
+  })
   return (
     <div className='ViewStock block'>
+      { stock && <>
       <p className='title is-1 has-text-centered'>{stock.name}</p>
       <div className='columns block has-text-centered'>
         <div className='column'>
@@ -32,13 +34,13 @@ export default function ViewStock(props) {
         <div className='column'>
           <div>
             <p className='heading'>Change $</p>
-            <p className='title'>{stock.change.toFixed(2)}</p>
+            <p className='title'>{shortNum(stock.change)}</p>
           </div>
         </div>
         <div className='column'>
           <div>
             <p className='heading'>Change</p>
-            <p className='title'>{stock.chgPct.toFixed(2)} %</p>
+            <p className='title'>{shortNum(stock.chgPct)} %</p>
           </div>
         </div>
       </div>
@@ -50,20 +52,20 @@ export default function ViewStock(props) {
         </div>
         <div className='column'>
           <div>
-            <p className='heading'>Average 3 Month Volume</p>
+            <p className='heading'>3-Month Volume</p>
             <p className='title'>{shortNum(stock.avgVol)}</p>
           </div>
         </div>
         <div className='column'>
           <div>
             <p className='heading'>P/E Ratio</p>
-            <p className='title'>{stock.pe.toFixed(2)}</p>
+            <p className='title'>{shortNum(stock.pe)}</p>
           </div>
         </div>
         <div className='column'>
           <div>
             <p className='heading'>Forward P/E</p>
-            <p className='title'>{stock.fwdPe.toFixed(2)}</p>
+            <p className='title'>{shortNum(stock.fwdPe)}</p>
           </div>
         </div>
       </div>
@@ -88,6 +90,8 @@ export default function ViewStock(props) {
           </div>
         </div>
       </div> */}
+      </>
+      }
     </div>
   );
 }
