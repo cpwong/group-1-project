@@ -13,7 +13,7 @@ function App() {
   const [tabList, setTabList] = useState([]);
    
   useEffect( () => {
-    console.log('App.useEffect[activeTab]');
+    console.log('App.useEffect[activeTab]', activeTab);
   }, [activeTab])
 
   const showTab = () => {

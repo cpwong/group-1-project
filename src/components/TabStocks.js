@@ -136,7 +136,7 @@ export default function TabStocks() {
           yearLo: d.fiftyTwoWeekLow    
         }
         setStockData(obj);
-        setIsStockReady(true)
+        setIsStockReady(true);
         apiPutStockData(obj);
       } else {
         console.log(`apiGetStockData ${symbol} API_Finance.get Error: ${status}`);
@@ -145,44 +145,86 @@ export default function TabStocks() {
     } else {  // (isLiveData === false)
       const { status, data } = await API_Json.get(`/stock-data/${symbol}`);
       if (status === 200) {
-        console.log('... from JSON server', data);
+        console.log('... JSON server', data);
         setStockData(data);
-        setIsStockReady(true)
+        setIsStockReady(true);
       } else {
         console.log(`apiGetStockData ${symbol} API_Finance.get Error: ${status}`);
       }  
     }
   }
-  //-- Fetch stock history price data from API
-  const apiGetStockHistory = async (symbol) => {
-    const { status, data } = await API_Finance.get(`/hi/history?interval=1d&symbol=${symbol}`)
-    setIsChartReady(false);
-    console.log('history', data);
-    if (status === 200) {
-      console.log('apiGetStockHistory:', data.items);
-      const array = [];
-      for (const id in data.items) {
-        array.push({...data.items[id], date: parseInt(id, 10)*1000});
+  //-- Saves stock history into data.json file running on local JSON-server
+  const apiPutChartData = async (obj) => {
+    console.log('apiPutChartData', obj);
+    try {
+      const response = await API_Json.put(`/stock-history/${obj.symbol}`, obj);
+      console.log('API.put response:', response);
+    } catch (err) {
+      console.log(obj.symbol, 'not found on local JSON-server. Adding new record...');
+      try {
+        const response = await API_Json.post(`/stock-history/`, obj);
+        console.log('API.put response:', response);
+      } catch (err) {
+        console.log('API.put error:', err.message);
       }
-      console.log('setChartData', array);
-      setChartData(array); 
-      setIsChartReady(true); 
-    } else {
-      console.log(`apiGetStockData ${symbol} API_Finance.get Error: ${status}`);
+    }
+  }
+  //-- Fetch stock history price data from API
+  const apiGetChartData = async (symbol) => {
+    console.log('apiGetChartData from ...');
+    setIsChartReady(false);
+    if (isLiveData) {
+      const { status, data } = await API_Finance.get(`/hi/history?interval=1d&symbol=${symbol}`)
+      console.log('history', data);
+      if (status === 200) {
+        console.log('apiGetChartData:', data.items);
+        const temp = [];
+        for (const id in data.items) {
+          temp.push({...data.items[id], date: parseInt(id, 10)*1000});
+        }
+        const obj = {
+          id: symbol,
+          array: [...temp]
+        }
+        setChartData(obj);
+        setIsChartReady(true);
+        apiPutChartData(obj); 
+      } else {
+        console.log(`apiGetChartData ${symbol} API_Finance.get Error: ${status}`);
+      }
+    } else { // (isLiveData === false)
+      const { status, data } = await API_Json.get(`/stock-history/${symbol}`);
+      if (status === 200) {
+        console.log('... JSON-server', data);
+        const obj = {
+          id: data.id,
+          array: data.array
+        }
+        setChartData(obj);
+        setIsChartReady(true);
+      } else {
+        console.log(`apiGetChartData ${symbol} API_Finance.get Error: ${status}`);  
+      }
     }
   }
 
   //-- Handler for submit button
-  const handleSubmit = async () => {
+  const handleSubmit = async e => {
+    e.preventDefault();
     console.log('handlerSubmit:');
     setSymbol(formItem.symbol);
-    setFormItem(blankForm);
+    // setFormItem(blankForm);
   }
   //-- Handler for input field boxes
   const handleInput = e => {
     const { name, value } = e.target;
     const newItem = {...formItem, [name]: value.toUpperCase()}
     setFormItem(newItem)
+  }
+  //-- Handler for checkbox (live data)
+  const handleCheckBox = e => {
+    console.log('handleCheckBox->isLiveData');
+    setIsLiveData(!isLiveData);
   }
   //-- Handler for cancel button
   const handleCancel = e => {
@@ -194,40 +236,47 @@ export default function TabStocks() {
   useEffect( () => {
     console.log('App.useEffect')
     if (symbol) {
-      // dummyGetStockData();
       apiGetStockData(symbol);
-      apiGetStockHistory(symbol);
+      apiGetChartData(symbol);
     }
   }, [symbol])
   
   return (
     <div className='TabStocks box'>
-      <div className='columns'>
+      {/*---- User input form ----*/ }
+      <div className='columns is-vcentered'>
         <div className='column'>
-        <div className='field has-addons'>
-          <div className='control'>
-            <input
-              className='input'
-              type='text'
-              name='symbol'
-              placeholder='Ticker SYMBOL'
-              value={formItem.symbol}
-              onChange={handleInput}
-            />
-          </div>
-          <div className='control'>
-            <button className='button is-primary' onClick={handleSubmit}>
-              Submit
-            </button>
-          </div>
+          <form className='field has-addons' onSubmit={handleSubmit}>
+            <div className='control'>
+              <input
+                className='input'
+                type='text'
+                name='symbol'
+                placeholder='Ticker SYMBOL'
+                value={formItem.symbol}
+                onChange={handleInput}
+              />
+            </div>
+            <div className='control'>
+              <button type='submit' className='button is-primary'>
+                Submit
+              </button>
+            </div>
+          </form>
         </div>
+        <div className='column'>
+          <label className='checkbox'>
+            <input type='checkbox' checked={isLiveData} onChange={handleCheckBox}/>
+              {' Live Data'}
+          </label>
         </div>
         <div className='column'>
           <h2 className='heading has-text-right has-text-weight-light'>Stock Analysis</h2>
         </div>
       </div>
-      { isStockReady && <ViewStock data={stockData} /> }
-      { 
+      { /*-- Stock data --*/ }
+      { isStockReady && <ViewStock data={stockData} /> } 
+      { /*-- Stock chart --*/
         isStockReady && 
         <>
           <span className='heading has-text-centered'>Relative 52-week High/Low Range</span>
@@ -256,7 +305,21 @@ export default function TabStocks() {
           </div>
         </>
       }      
-      { isChartReady && <ViewChart data={chartData} symbol={symbol} />}
+      { isChartReady && <ViewChart data={chartData} />}
+      {/*-- Progress Bar --*/}
+      { (!isChartReady || !isStockReady) &&
+        <>
+          <div className='columns is-vcentered'>
+            <div className='column has-text-right'>
+              <p>Fetching stock data in progress:</p>
+            </div>
+            <div className='column'>
+              <progress className="progress is-info" max="100" />
+            </div>
+          </div>
+        </>
+      }
+
     </div>
   );
 }
