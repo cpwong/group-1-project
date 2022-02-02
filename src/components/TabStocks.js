@@ -3,52 +3,7 @@ import { API_Finance, API_Json } from './../api/API'
 import ViewStock from './TabStocks/ViewStock'
 import ViewChart from './TabStocks/ViewChart'
 import ViewGauge from './TabStocks/ViewGauge'
-
-const dummyData = {
-  ask: 161.68,
-  averageDailyVolume3Month: 97589887,
-  bid: 160.12,
-  bookValue: 3.841,
-  dividendDate: {
-    date: '2021-11-11 00:00:00.000000', 
-    timezone_type: 1, 
-    timezone: '+00:00'},
-  earningsTimestamp: {
-    date: '2022-01-27 21:00:00.000000', 
-    timezone_type: 1, 
-    timezone: '+00:00'},
-  epsForward: 6.19,
-  epsTrailingTwelveMonths: 5.61,
-  fiftyDayAverage: 169.0138,
-  fiftyDayAverageChange: -9.3237915,
-  fiftyDayAverageChangePercent: -0.05516586,
-  fiftyTwoWeekHigh: 182.94,
-  fiftyTwoWeekHighChange: -23.25,
-  fiftyTwoWeekHighChangePercent: -0.12709084,
-  fiftyTwoWeekLow: 116.21,
-  fiftyTwoWeekLowChange: 43.480003,
-  fiftyTwoWeekLowChangePercent: 0.37415028,
-  forwardPE: 25.798061,
-  longName: "Apple Inc.",
-  marketCap: 2608440279040,
-  priceToBook: 41.57511,
-  regularMarketChange: -0.08999634,
-  regularMarketChangePercent: -0.05632516,
-  regularMarketDayHigh: 164.3894,
-  regularMarketDayLow: 157.82,
-  regularMarketOpen: 163.5,
-  regularMarketPreviousClose: 159.78,
-  regularMarketPrice: 159.69,
-  regularMarketVolume: 108275308,
-  sharesOutstanding: 16334399488,
-  symbol: "AAPL",
-  trailingAnnualDividendRate: 0.85,
-  trailingAnnualDividendYield: 0.005319815,
-  trailingPE: 28.46524,
-  twoHundredDayAverage: 147.8017,
-  twoHundredDayAverageChange: 11.888306,
-  twoHundredDayAverageChangePercent: 0.080434166
-}
+import FormTickerSymbol from './TabStocks/FormTickerSymbol'
 
 export default function TabStocks() {
   const blankForm = {
@@ -69,10 +24,11 @@ export default function TabStocks() {
   const [stockData, setStockData] = useState({});           // Stores stock data from API
   const [chartData, setChartData] = useState([]);           // Stores stock historical price data from API
   const [formItem, setFormItem] = useState(blankForm);      // Query form input
-  const [symbol, setSymbol] = useState(null)                // Stock symbol to query
+  const [symbol, setSymbol] = useState('AAPL')                // Stock symbol to query
   const [isStockReady, setIsStockReady] = useState(false);  // Stock data is ready for viewing
   const [isChartReady, setIsChartReady] = useState(false);  // Chart data is ready for viewing
   const [isLiveData, setIsLiveData] = useState(false);      // true =  from API server, false = from JSON-server
+  const [isSearchBox, setSearchBox] = useState(false);
 
   //-- DUMMY Fetch stock data from API
   /*
@@ -213,14 +169,26 @@ export default function TabStocks() {
     e.preventDefault();
     console.log('handlerSubmit:');
     setSymbol(formItem.symbol);
+    setSearchBox(false);
     // setFormItem(blankForm);
   }
   //-- Handler for input field boxes
+  
   const handleInput = e => {
     const { name, value } = e.target;
     const newItem = {...formItem, [name]: value.toUpperCase()}
     setFormItem(newItem)
+    console.log('handleInput:', newItem);
   }
+  //-- Handler for search modal window
+  const handleOpenSearch = e => {
+    console.log('handleOpenSearch');
+    setSearchBox(true);
+  }  
+  const handleCloseSearch = e => {
+    console.log('handleCloseSearch');
+    setSearchBox(false);
+  }  
   //-- Handler for checkbox (live data)
   const handleCheckBox = e => {
     console.log('handleCheckBox->isLiveData');
@@ -245,7 +213,8 @@ export default function TabStocks() {
     <div className='TabStocks box'>
       {/*---- User input form ----*/ }
       <div className='columns is-vcentered'>
-        <div className='column'>
+      { /*-- Input text box with Submit button -- */ }
+        <div className='column is-3'>
           <form className='field has-addons' onSubmit={handleSubmit}>
             <div className='control'>
               <input
@@ -258,21 +227,49 @@ export default function TabStocks() {
               />
             </div>
             <div className='control'>
-              <button type='submit' className='button is-primary'>
+              <button type='submit' className='button is-info'>
                 Submit
               </button>
             </div>
           </form>
         </div>
-        <div className='column'>
+        { /*--- Input with Submit button ----*/ }
+        <div className='column is-2'>
+          <button className='button is-primary' onClick={handleOpenSearch}>
+            Search
+          </button>
+        </div>
+        <div className='column is-2'>
           <label className='checkbox'>
             <input type='checkbox' checked={isLiveData} onChange={handleCheckBox}/>
               {' Live Data'}
           </label>
         </div>
         <div className='column'>
-          <h2 className='heading has-text-right has-text-weight-light'>Stock Analysis</h2>
+          <p className='is-size-4 has-text-right has-text-weight-light'>STOCK ANALYSIS</p>
         </div>
+      </div>
+      {/*-- Search box window (modal) for stock symbol --*/}
+      <div className={`modal ${isSearchBox ? 'is-active' : ''}`}>
+        <div className='modal-background'></div>
+        <div className='modal-content'>
+          <div className='box'>
+            <p>Start typing in the search box below...</p>
+            <form className='field has-addons' onSubmit={handleSubmit}>
+              <div className='control'>
+                <FormTickerSymbol onChange={ (stock) => 
+                  setFormItem({symbol: stock.symbol}) } />
+              </div>
+              <div className='control'>
+                <button className='button is-primary'>
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <button className='modal-close is-large' aria-label='close' 
+          onClick={handleCloseSearch}/>
       </div>
       { /*-- Stock data --*/ }
       { isStockReady && <ViewStock data={stockData} /> } 
@@ -282,21 +279,18 @@ export default function TabStocks() {
           <span className='heading has-text-centered'>Relative 52-week High/Low Range</span>
           <div className='columns multi-line'>
             <div className='column'><ViewGauge 
-              id='bid'
               value={stockData.bid} 
               high={stockData.yearHi} 
               low={stockData.yearLo} />
               <p className='heading has-text-centered'>Last Price</p>
             </div>
             <div className='column'><ViewGauge 
-              id='fiftyDMA'
               value={stockData.fiftyDMA} 
               high={stockData.yearHi} 
               low={stockData.yearLo} />
               <p className='heading has-text-centered'>50-day Moving Avg</p>
             </div>
             <div className='column'><ViewGauge 
-              id='TwoHunDMA'
               value={stockData.twoHunDMA} 
               high={stockData.yearHi} 
               low={stockData.yearLo} />

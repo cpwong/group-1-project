@@ -1,16 +1,13 @@
 import './App.css';
-import { uniqueId } from 'lodash';
 import { useState, useEffect } from 'react'
 import TabStocks from './components/TabStocks'
 import TabCrypto from './components/TabCrypto'
 import TabCovid from './components/TabCovid'
 import TabNews from './components/TabNews'
-
 import Home from './components/Home'
 
 function App() {
   const [activeTab, setActiveTab] = useState('home');
-  const [tabList, setTabList] = useState([]);
    
   useEffect( () => {
     console.log('App.useEffect[activeTab]', activeTab);

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { uniqueId } from 'lodash';
 //---- Install amcharts5 npm i @amcharts/amcharts5 ----//
 import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from '@amcharts/amcharts5/xy';
@@ -6,10 +7,11 @@ import * as am5radar from '@amcharts/amcharts5/radar';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 
 export default function ViewGauge(props) {
-  const { id, value, high, low } = props;
+  const { value, high, low } = props;
   // const high = 100;
   // const low = 50;
   // const value = 75;
+  const id = uniqueId();
 
   useEffect( () => {
     let root = am5.Root.new(id);
@@ -153,7 +155,7 @@ export default function ViewGauge(props) {
     return () => {
       root.dispose();
     };
-  }, [value, high, low]);
+  }, []);
 
   return(
     <div className='ViewGauge block'>
