@@ -173,7 +173,7 @@ export default function ViewChart(props) {
 
   return (
     <div className='ViewChart block'>
-      <h2 className='heading has-text-right has-text-weight-light'>Daily Price Chart</h2>
+      <p className='is-size-4 has-text-weight-light has-text-centered'>DAILY PRICE CHART</p>
       <div id='stockchart' style={{ width: '100%', height: '700px' }} />
     </div>
   );

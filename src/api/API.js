@@ -16,11 +16,17 @@ export const API_Json = axios.create({
 
 */
 
-export const API_Finance = axios.create({
-  baseURL:'https://mboum-finance.p.rapidapi.com',
+export const API_YahooFinance = axios.create({
+  baseURL:'https://yfapi.net',
   headers: {
-    'x-rapidapi-host': 'mboum-finance.p.rapidapi.com',
-    'x-rapidapi-key': process.env.REACT_APP_API_KEY
+    'x-api-key': process.env.REACT_APP_API_KEY_YAHOO
   }    
 })
 
+export const API_MboumFinance = axios.create({
+  baseURL:'https://mboum-finance.p.rapidapi.com',
+  headers: {
+    'x-rapidapi-host': 'mboum-finance.p.rapidapi.com',
+    'x-rapidapi-key': process.env.REACT_APP_API_KEY_MBOUM
+  }    
+})

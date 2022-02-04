@@ -46,8 +46,7 @@ export default function FormTickerSymbol(props) {
                     style={{ 
                       backgroundColor: highlightedIndex === index ? 'lightgray' : 'white',
                       fontWeight: selectedItem === item ? 'bold' : 'normal'
-                    }}
-                  >
+                    }} >
                     {item.name}
                   </div> ))}
                 </div> )

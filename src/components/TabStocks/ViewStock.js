@@ -34,13 +34,19 @@ export default function ViewStock(props) {
         <div className='column'>
           <div>
             <p className='heading'>Change $</p>
-            <p className='title'>{shortNum(stock.change)}</p>
+            <p className='title'
+              style={{color: stock.change < 0 ? 'red' : 'green'}} >
+              {shortNum(stock.change)}
+            </p>
           </div>
         </div>
         <div className='column'>
           <div>
             <p className='heading'>Change</p>
-            <p className='title'>{shortNum(stock.chgPct)} %</p>
+            <p className='title'
+              style={{color: stock.change < 0 ? 'red' : 'green'}} >
+              {shortNum(stock.chgPct)} %
+            </p>
           </div>
         </div>
       </div>

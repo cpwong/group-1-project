@@ -1,5 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react'
+import TabCalculator from './components/TabCalculator'
+import TabMovies from './components/TabMovies'
 import TabStocks from './components/TabStocks'
 import TabCrypto from './components/TabCrypto'
 import TabCovid from './components/TabCovid'
@@ -25,13 +27,17 @@ function App() {
         return <TabCovid />     // Keith
       case 'news':
         return <TabNews />      // Liew, Leslie
+      case 'movies':
+        return <TabMovies />    // Mani
+      case 'calculator':
+        return <TabCalculator />  // Charles  
       default:
         return 'home';
     }  
   }
   return (
     <section className='App section content'>
-      <h1 className='title is-1 has-text-centered'>Project Name</h1>
+      <p className='title is-2 has-text-centered'>Project Name</p>
       <div className='tabs is-toggle is-centered'>
         <ul>
           <li>
@@ -48,6 +54,12 @@ function App() {
           </li>
           <li>
             <a className='navbar-item' onClick={() => setActiveTab('news')}>📰News</a>
+          </li>
+          <li>
+            <a className='navbar-item' onClick={() => setActiveTab('movies')}>🎬Movies</a>
+          </li>
+          <li>
+            <a className='navbar-item' onClick={() => setActiveTab('calculator')}>➗Calc</a>
           </li>
         </ul>
       </div>

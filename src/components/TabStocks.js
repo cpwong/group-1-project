@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { API_Finance, API_Json } from './../api/API'
+import { API_MboumFinance, API_YahooFinance, API_Json } from './../api/API'
 import ViewStock from './TabStocks/ViewStock'
 import ViewChart from './TabStocks/ViewChart'
 import ViewGauge from './TabStocks/ViewGauge'
@@ -27,7 +27,7 @@ export default function TabStocks() {
   const [symbol, setSymbol] = useState('AAPL')                // Stock symbol to query
   const [isStockReady, setIsStockReady] = useState(false);  // Stock data is ready for viewing
   const [isChartReady, setIsChartReady] = useState(false);  // Chart data is ready for viewing
-  const [isLiveData, setIsLiveData] = useState(false);      // true =  from API server, false = from JSON-server
+  const [isLiveData, setIsLiveData] = useState(true);      // true =  from API server, false = from JSON-server
   const [isSearchBox, setSearchBox] = useState(false);
 
   //-- DUMMY Fetch stock data from API
@@ -53,10 +53,10 @@ export default function TabStocks() {
   const apiPutStockData = async (obj) => {
     console.log('apiPutStockData', obj);
     try {
-      const response = await API_Json.put(`/stock-data/${obj.symbol}`, obj);
+      const response = await API_Json.put(`/stock-data/${obj.id}`, obj);
       console.log('API.put response:', response);
     } catch (err) {
-      console.log(obj.symbol,'not found on local JSON-server. Adding new record...');
+      console.log(obj.id,'not found on local JSON-server. Adding new record...');
       try {
         const response = await API_Json.post(`/stock-data`, obj);
         console.log('API.put response:', response);  
@@ -65,14 +65,14 @@ export default function TabStocks() {
       }
     }  
   }
-  //-- Fetch stock data from API
-  const apiGetStockData = async (symbol) => {
+  //-- Fetch stock data from API (Mboum Finance)
+  const apiGetStockData_Mboum = async (symbol) => {
     console.log('apiGetStockData from...');
     setIsStockReady(false)
     if (isLiveData) {
-      const { status, data } = await API_Finance.get(`/qu/quote?symbol=${symbol}`);
+      const { status, data } = await API_MboumFinance.get(`/qu/quote?symbol=${symbol}`);
       if (status === 200) {
-        console.log('... from API_Finance:', data[0]);
+        console.log('... from API_MboumFinance:', data[0]);
         const d = data[0];
         const obj = {
           id: symbol,
@@ -95,7 +95,7 @@ export default function TabStocks() {
         setIsStockReady(true);
         apiPutStockData(obj);
       } else {
-        console.log(`apiGetStockData ${symbol} API_Finance.get Error: ${status}`);
+        console.log(`apiGetStockData ${symbol} API_MboumFinance.get Error: ${status}`);
         return;
       }  
     } else {  // (isLiveData === false)
@@ -105,7 +105,52 @@ export default function TabStocks() {
         setStockData(data);
         setIsStockReady(true);
       } else {
-        console.log(`apiGetStockData ${symbol} API_Finance.get Error: ${status}`);
+        console.log(`apiGetStockData ${symbol} API_MboumFinance.get Error: ${status}`);
+      }  
+    }
+  }
+  
+  //-- Fetch stock data from API (Yahoo Finance)
+  const apiGetStockData_Yahoo = async (symbol) => {
+    console.log('apiGetStockData from...');
+    setIsStockReady(false)
+    if (isLiveData) {
+      const { status, data } = await API_YahooFinance.get(`/v6/finance/quote?symbols=${symbol}`);
+      if (status === 200) {
+        console.log('... from API_YahooFinance:', data.quoteResponse.result[0]);
+        const d = data.quoteResponse.result[0];
+        const obj = {
+          id: symbol,
+          name: d.longName, 
+          bid: d.bid,
+          ask: d.ask,
+          change: d.regularMarketChange,
+          chgPct: d.regularMarketChangePercent,
+          dayVol: d.regularMarketVolume,
+          avgVol: d.averageDailyVolume3Month,
+          mktCap: d.marketCap,
+          fwdPe: d.forwardPE,
+          pe: d.trailingPE,
+          fiftyDMA: d.fiftyDayAverage,
+          twoHunDMA: d.twoHundredDayAverage,
+          yearHi: d.fiftyTwoWeekHigh,
+          yearLo: d.fiftyTwoWeekLow    
+        }
+        setStockData(obj);
+        setIsStockReady(true);
+        apiPutStockData(obj);
+      } else {
+        console.log(`apiGetStockData ${symbol} API_YahooFinance.get Error: ${status}`);
+        return;
+      }  
+    } else {  // (isLiveData === false)
+      const { status, data } = await API_Json.get(`/stock-data/${symbol}`);
+      if (status === 200) {
+        console.log('... JSON server', data);
+        setStockData(data);
+        setIsStockReady(true);
+      } else {
+        console.log(`apiGetStockData ${symbol} API_YahooFinance.get Error: ${status}`);
       }  
     }
   }
@@ -126,14 +171,14 @@ export default function TabStocks() {
     }
   }
   //-- Fetch stock history price data from API
-  const apiGetChartData = async (symbol) => {
+  const apiGetChartData_Mboum = async (symbol) => {
     console.log('apiGetChartData from ...');
     setIsChartReady(false);
     if (isLiveData) {
-      const { status, data } = await API_Finance.get(`/hi/history?interval=1d&symbol=${symbol}`)
+      const { status, data } = await API_MboumFinance.get(`/hi/history?interval=1d&symbol=${symbol}`)
       console.log('history', data);
       if (status === 200) {
-        console.log('apiGetChartData:', data.items);
+        // console.log('apiGetChartData:', data.items);
         const temp = [];
         for (const id in data.items) {
           temp.push({...data.items[id], date: parseInt(id, 10)*1000});
@@ -204,8 +249,8 @@ export default function TabStocks() {
   useEffect( () => {
     console.log('App.useEffect')
     if (symbol) {
-      apiGetStockData(symbol);
-      apiGetChartData(symbol);
+      apiGetStockData_Yahoo(symbol);
+      apiGetChartData_Mboum(symbol);
     }
   }, [symbol])
   
@@ -313,7 +358,16 @@ export default function TabStocks() {
           </div>
         </>
       }
+      <footer className='footer'>
+        <div className='content'>
+        <p>Credits:</p>
+        <ul>
+          <li>Stock data from <a href="https://rapidapi.com/sparior/api/mboum-finance/">Mboum-Finance API</a></li>
+          <li>Stock data from <a href="https://www.yahoofinanceapi.com/">Yahoo Finance API</a></li>
+        </ul>
+        </div>
 
+      </footer>
     </div>
   );
 }
