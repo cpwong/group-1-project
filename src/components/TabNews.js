@@ -1,10 +1,11 @@
+import React from 'react';
 import { useState, useEffect } from 'react'
-import { API_Crypto } from '../api/API'
+import { API_FreeNews, API_Json } from '../api/API'
+import { NewsCompProvider } from './TabNews/NewsComp';
 
 export default function TabNews() {
   return (
-    <div className='TabNews box'>
-      <h2>News</h2>
-    </div>
-  )
+  <NewsCompProvider>
+    <News />
+  </NewsCompProvider>
 }

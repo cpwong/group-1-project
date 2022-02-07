@@ -30,3 +30,11 @@ export const API_MboumFinance = axios.create({
     'x-rapidapi-key': process.env.REACT_APP_API_KEY_MBOUM
   }    
 })
+
+export const API_FreeNews = axios.create({
+  baseURL: 'https://free-news.p.rapidapi.com',
+  headers: {
+    'x-rapidapi-host': 'free-news.p.rapidapi.com',
+    'x-rapidapi-key': process.env.REACT_APP_API_KEY_FREENEWS
+  }
+})
