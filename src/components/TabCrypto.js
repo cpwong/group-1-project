@@ -4,7 +4,7 @@ import { API_Crypto } from './../api/API'
 export default function TabCrypto() {
   return (
     <div className='TabCrypto box'>
-      <h2>Crptocurrencies</h2>
+      <h2>Cryptocurrencies</h2>
     </div>
   )
 }

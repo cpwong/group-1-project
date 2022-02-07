@@ -7,7 +7,7 @@ export default function Home() {
         <div className='hero-body'>
           <h1 className='title'>GROUP MEMBERS</h1>
           <h3>Charles Chew</h3>
-          <h3>Keith Tan Wei Kiat</h3>
+          <h3>Keith Tan Wei Keat</h3>
           <h3>Leslie Chiang</h3>
           <h3>Liew King Mann</h3>
           <h3>Maniraja A</h3>
