@@ -30,3 +30,20 @@ export const API_MboumFinance = axios.create({
     'x-rapidapi-key': process.env.REACT_APP_API_KEY_MBOUM
   }    
 })
+
+export const API_covidstat = axios.create({
+    baseURL: 'https://covid-193.p.rapidapi.com',
+    headers: {
+        'x-rapidapi-host': 'covid-193.p.rapidapi.com',
+        'x-rapidapi-key': process.env.REACT_APP_API_KEY_COVID
+    }
+})
+
+export const API_covidVaxed = axios.create({
+    baseURL: 'https://covid-19-world-vaccination-data.p.rapidapi.com',
+    headers: {
+        'x-rapidapi-host': 'covid-19-world-vaccination-data.p.rapidapi.com',
+        'x-rapidapi-key': process.env.REACT_APP_API_KEY_COVID,
+        'useQueryString' : true
+    }
+})
