@@ -11,7 +11,7 @@ const News = () => {
 
     useEffect(() => {
         const getArticles = async () => {
-            const res = await Axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=c1c56bdf71c14d1cabebd9a4f6610a9d`);
+            const res = await Axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=053939cd07fe42f5bc8c0341160539bf`);
             console.log(res);
             setArticles(res.data.articles);
         }
@@ -26,18 +26,24 @@ const News = () => {
     }
 
     // Handler for Input Search Box.
+    function handleSearchBox(event) {
+      console.log(event.target.value);
+      setQuery(event.target.value);
+  }
     
 
     return (
       <div>
         <div className='columns'>
           <div className='column'>
-            <form className='field has-addons' onSubmit={handleSubmit}>            
+            <form className='field has-addons' onSubmit={handleSearchBox}>            
               <div className='control'>
                 <input 
+                  onChange={handleSearchBox} 
+                  value={query}
                   className='input' 
                   type='text' 
-                  placeholder='tsla' />
+                  placeholder='Search news e.g. tsla' />
               </div>
               <div className='control'>
                 <button type='submit' className='button is-info'>
