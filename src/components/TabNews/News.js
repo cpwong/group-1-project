@@ -39,9 +39,11 @@ const News = () => {
       <div>
         <div className='columns'>
           <div className='column'>
-            <form className='field has-addons' onSubmit={handleSubmit}>            
+            <form className='field has-addons' onSubmit={handleSearchBox}>            
               <div className='control'>
                 <input 
+                  onChange={handleSearchBox} 
+                  value={query}
                   className='input' 
                   type='text'
                   value={input} 
