@@ -77,7 +77,35 @@ function TabMovies() {
 
   return (
     <div className='TabMovies box'>
-      <header className='mani-center-max-size mani-header'>
+
+      <div className='columns'>
+        <div className='column'>
+          <form className='field has-addons' onSubmit={fetchMovies}>            
+            <div className='control'>
+              <input
+                className='input'
+                placeholder='Search Movie'
+                type='text'
+                id='search'
+                onInput={(event) => setSearchKey(event.target.value)}
+                />
+            </div>
+            <div className='control'>
+              <button type='submit' className='button is-info'>
+                Search Movie
+              </button>
+            </div>
+          </form>
+        </div>
+        <div className='column'>
+          <p className='is-size-4 has-text-right has-text-weight-light'>
+            MANIRAJA's MOVIE APP
+          </p>
+        </div>
+      </div>
+
+
+      {/* <header className='mani-center-max-size mani-header'>
         <span className='mani-brand'> Maniraja Movie App </span>
         <form className='mani-form' onSubmit={fetchMovies}>
           <input
@@ -92,7 +120,9 @@ function TabMovies() {
             <i className='mani-fa mani-fa-search'></i>
           </button>
         </form>
-      </header>
+      </header> */}
+
+
       {movies.length ? (
         <main>
           {movie ? (
@@ -144,7 +174,7 @@ function TabMovies() {
                     ) : (
                       'Sorry, no trailer available'
                     )}
-                    <p className='mani-h1'>{movie.title}</p>
+                    <h1>{movie.title}</h1>
                     <p>{movie.overview}</p>
                   </div>
                 </div>

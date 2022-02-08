@@ -15,7 +15,7 @@ const Movie = ({ movie, selectMovie }) => {
             />
             <div className='mani-overview'>
               <div>
-                <h5> {movie.overview}</h5>
+                <h5>{movie.overview}</h5>
               </div>
             </div>
           </div>
