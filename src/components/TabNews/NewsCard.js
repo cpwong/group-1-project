@@ -8,6 +8,8 @@ function NewsCard(props) {      // 4 props passed.
                 <img className='new-img' src={props.urlToImage} alt={props.urlToImage} />
                 <h3><a href={props.url}>{props.title}</a></h3>
                 <p>{props.description}</p>
+                <p>{props.author}</p>
+                <p>{props.publishedAt}</p>
             </div>
         </div>
     );

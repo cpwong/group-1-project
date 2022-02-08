@@ -18,15 +18,31 @@ const News = () => {
         getArticles();
     }, [query])
 
+    // Handler for Submit button
+    const handleSubmit = async e => {
+        e.preventDefault();
+        console.log('handleSubmit:');
+        setQuery()
+    }
+
+    // Handler for Input Search Box.
+    
+
     return (
         <div>
+            <h1>Investment & Trading News</h1>
+            <input type='text'placeholder='tsla'/>
+            <button>Search News</button>
            {articles.map(props => {
                return (
                 <NewsCard 
+                    key = {props.id}
                     title = {props.title}
                     description = {props.description}
                     url = {props.url}
                     urlToImage = {props.urlToImage}
+                    author = {props.author}
+                    publishedAt = {props.publishedAt}
                 />
                )
            })}
