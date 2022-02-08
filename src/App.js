@@ -1,7 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react'
 import TabCalculator from './components/TabCalculator'
-import TabMovies from './components/TabMovies'
+import TabMovies from './components/TabMovies/TabMovies'
 import TabStocks from './components/TabStocks'
 import TabCrypto from './components/TabCrypto'
 import TabCovid from './components/TabCovid'
