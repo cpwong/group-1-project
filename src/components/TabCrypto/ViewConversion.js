@@ -79,13 +79,13 @@ export default function ViewConversion() {
     // console.log("Chart Data", data);
 
     if (status === 200 && data) {
-      console.log("Chart Data: ", status);
+      // console.log("Chart Data: ", status);
 
       const timeData = data["Time Series (Digital Currency Daily)"];
-      console.log("timeData: ", timeData);
-      console.log("Object.keys: ", Object.keys(timeData)); // dates string
-      console.log("Object.values: ", Object.values(timeData));
-      console.log("Object.entries: ", Object.entries(timeData));
+      // console.log("timeData: ", timeData);
+      // console.log("Object.keys: ", Object.keys(timeData)); // dates string
+      // console.log("Object.values: ", Object.values(timeData));
+      // console.log("Object.entries: ", Object.entries(timeData));
 
       // How to Filter Dates Objects and Display in Chart JS, ref: https://youtu.be/AEaXyzCElGI
       // Object.entries(): [[keys,objects]] - obj>array
@@ -228,7 +228,7 @@ export default function ViewConversion() {
             rate={displayExchange.rate}
           />
         </div>
-        {/* <ViewChart data={cryptoChartData} /> */}
+        <ViewChart data={cryptoChartData} />
       </div>
     </div>
   );
