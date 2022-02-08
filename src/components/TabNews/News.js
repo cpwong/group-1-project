@@ -29,24 +29,33 @@ const News = () => {
     
 
     return (
-        <div>
-            {/* <h1>Investment & Trading News</h1> */}
-            <input type='text'placeholder='tsla'/>
-            <button>Search News</button>
-           {articles.map(props => {
-               return (
-                <NewsCard 
-                    key = {props.id}
-                    title = {props.title}
-                    description = {props.description}
-                    url = {props.url}
-                    urlToImage = {props.urlToImage}
-                    author = {props.author}
-                    publishedAt = {props.publishedAt}
-                />
-               )
-           })}
+      <div>
+        <div className='columns'>
+          <div className='column'>
+            <input clssName='input' type='text' placeholder='tsla' />
+              <button>Search News</button>
+          </div>
+          <div className='column'>
+            <p className='is-size-4 has-text-right has-text-weight-light'>
+              INVESTMENT AND TRADING NEWS
+            </p>
+          </div>
         </div>
+
+        {articles.map((props) => {
+          return (
+            <NewsCard
+              key={props.id}
+              title={props.title}
+              description={props.description}
+              url={props.url}
+              urlToImage={props.urlToImage}
+              author={props.author}
+              publishedAt={props.publishedAt}
+            />
+          );
+        })}
+      </div>
     );
 }
 
