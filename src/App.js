@@ -59,7 +59,7 @@ function App() {
             <a className='navbar-item' onClick={() => setActiveTab('movies')}>🎬Movies</a>
           </li>
           <li>
-            <a className='navbar-item' onClick={() => setActiveTab('calculator')}>➗Calc</a>
+            <a className='navbar-item' onClick={() => setActiveTab('calculator')}>➗Calculator</a>
           </li>
         </ul>
       </div>

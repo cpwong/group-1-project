@@ -1,89 +1,89 @@
-*, *::before, *::after { 
+/* *, *::before, *::after {  */
+.TabCalculator {
+  box-sizing: border-box;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-weight: normal;
+}
 
-    box-sizing: border-box;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-weight:normal;
-    }
-    
-    body {
+/* body {
     
     padding:0;
     margin:0;
     background: linear-gradient(to right, #6416bd, #00FFEE);
     
-    }
-    
-    .calculator-grid { /* */
-    
-        display: grid;     /* displays Grid*/
-        justify-content: center;   /*sets the content as a frame but not yet enough so align content is needed */ 
-        align-content: center; /*sets the content towards the center */ 
-        min-height: 100vh;     /* responsive height metrics*/
-        grid-template-columns: repeat(4, 100px);    
-        /* sets 4 columns each at 100px; note that if there is a space after repeat (eg) this will not work*/
-        grid-template-rows: minmax(120px,auto) repeat(5,100px);
-        /* minmax is a responsive tool to set min at 120px and auto scales
+    } */
+
+.calculator-grid {
+  /* */
+
+  display: grid; /* displays Grid*/
+  justify-content: center; /*sets the content as a frame but not yet enough so align content is needed */
+  align-content: center; /*sets the content towards the center */
+  min-height: 100vh; /* responsive height metrics*/
+  grid-template-columns: repeat(4, 100px);
+  /* sets 4 columns each at 100px; note that if there is a space after repeat (eg) this will not work*/
+  grid-template-rows: minmax(120px, auto) repeat(5, 100px);
+  /* minmax is a responsive tool to set min at 120px and auto scales
         next repeat sets 5 rows 100px each */
-    } 
-    
-    .calculator-grid > button { 
-        /* > targets the direct children of the calculator grid element 
+}
+
+.calculator-grid > button {
+  /* > targets the direct children of the calculator grid element 
         https://techbrij.com/css-selector-adjacent-child-sibling   */
-    
-        cursor:pointer;  /*onhover the pointer changes to be a pointer instead of arrow */
-       
-        font-size:2rem; /* When user sets different font-size on browser, REM automatically scale up and down elements
+
+  cursor: pointer; /*onhover the pointer changes to be a pointer instead of arrow */
+
+  font-size: 2rem; /* When user sets different font-size on browser, REM automatically scale up and down elements
         like fonts, images etc on the webpage which is not the case with PX. In the below gif left side text is set
          using font size REM unit while right side font is set by PX unit.     */
-       
-        border: 1px solid white;
-        outline: none; 
-        /*An outline is a line that is drawn around elements, OUTSIDE the borders, to make the element "stand out".*/
-        background-color: rgba(255,255,255,.75); /*method to do transparency */
-    
-    }
-    /*hover above button triggers */
-    .calculator-grid > button:hover { 
-        background-color: rgba(255,255,255, 9);
-    }
-    
-    .span-two { 
-        grid-column: span 2; /*this causes the button AC and Equal bearing this class to span 2*/
-    }
-    
-    .calculator-grid > button:hover { 
-        background-color: rgba(255, 255, 255, 0.9);
-    
-    }
-    
-    .span-two {
-        grid-column: span 2; 
-     }
-    
-    .output { 
-        grid-column: 1/ -1; 
-        /* the output div basically takes a small square on the left and we want to span this full width: 
+
+  border: 1px solid #888;
+  outline: none;
+  /*An outline is a line that is drawn around elements, OUTSIDE the borders, to make the element "stand out".*/
+  background-color: rgba(255, 255, 255, 0.75); /*method to do transparency */
+}
+/*hover above button triggers */
+.calculator-grid > button:hover {
+  background-color: rgba(255, 255, 255, 9);
+}
+
+.span-two {
+  grid-column: span 2; /*this causes the button AC and Equal bearing this class to span 2*/
+}
+
+.calculator-grid > button:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.span-two {
+  grid-column: span 2;
+}
+
+.output {
+  grid-column: 1/ -1;
+  /* the output div basically takes a small square on the left and we want to span this full width: 
         by using grid-column 1/-1 */
-    
-        background-color: rgba(0, 0, 0, 0.75); 
-        /* */
-        display: flex; 
-        align-items: flex-end;
-        justify-content: space-around;
-        flex-direction: column; /*go downwards */
-        padding: 10px;  
-        word-wrap: break-word; /* https://www.w3schools.com/cssref/css3_pr_word-wrap.asp */
-        word-break: break-all; /* this allows overflowing of characters to next line*/
-    }
-    
-    #prev-operand { /*previous and current operands are divs*/
-        color: #ffffff;
-        font-size: 6rem;   
-    }
-    
-    #current-operand { 
-        color: rgba(255, 255, 255, 0.75);
-        font-size: 4rem; 
-    }
-    
-    
+
+  background-color: rgba(0, 0, 0, 0.75);
+  background: linear-gradient(to right, #6416bd, #00ffee);
+
+  /* */
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  flex-direction: column; /*go downwards */
+  padding: 10px;
+  word-wrap: break-word; /* https://www.w3schools.com/cssref/css3_pr_word-wrap.asp */
+  word-break: break-all; /* this allows overflowing of characters to next line*/
+}
+
+#prev-operand {
+  /*previous and current operands are divs*/
+  color: #000;
+  font-size: 5rem;
+}
+
+#current-operand {
+  color: #000;
+  font-size: 5rem;
+}

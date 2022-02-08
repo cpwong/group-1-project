@@ -229,10 +229,13 @@ useEffect (()=> {
  
 
   return (
-    <div>
-      <h2>Calculator</h2>
-
-      <div className="calculator-grid">
+    <div className='box'>
+      <div className='columns'>
+        <div className='column'>
+          <p className='is-size-4 has-text-right has-text-weight-light'>CALCULATOR</p>
+        </div>
+      </div>
+      <div className="TabCalculator calculator-grid">
         <div className="output">
           <div data-prior-operand id="prev-operand"></div>
           <div data-current-operand id="current-operand"></div>
