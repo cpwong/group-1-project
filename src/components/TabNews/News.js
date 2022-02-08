@@ -30,7 +30,7 @@ const News = () => {
 
     return (
         <div>
-            <h1>Investment & Trading News</h1>
+            {/* <h1>Investment & Trading News</h1> */}
             <input type='text'placeholder='tsla'/>
             <button>Search News</button>
            {articles.map(props => {
