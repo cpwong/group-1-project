@@ -47,3 +47,18 @@ export const API_covidVaxed = axios.create({
         'useQueryString' : true
     }
 })
+// Just another potential API for news from Rapid API.
+// export const API_FreeNews = axios.create({
+//   baseURL: 'https://free-news.p.rapidapi.com',
+//   headers: {
+//     'x-rapidapi-host': 'free-news.p.rapidapi.com',
+//     'x-rapidapi-key': process.env.REACT_APP_API_KEY_FREENEWS
+//   }
+// })
+
+export const API_NewsApi = axios.create({
+  baseURL: 'https://newsapi.org/v2/everything',
+  headers: {
+    'x-api-key': process.env.REACT_APP_API_KEY_NEWSAPI
+  }
+})
