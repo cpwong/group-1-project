@@ -59,6 +59,6 @@ export const API_covidVaxed = axios.create({
 export const API_NewsApi = axios.create({
   baseURL: 'https://newsapi.org/v2/everything',
   headers: {
-    'x-api-key': process.env.REACT_APP_API_KEY_NEWSAPI
+    'X-Api-Key': process.env.REACT_APP_API_KEY_NEWSAPI
   }
 })
