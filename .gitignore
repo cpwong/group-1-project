@@ -25,3 +25,5 @@ yarn-error.log*
 
 # project related
 json-server/data.json
+
+.env
