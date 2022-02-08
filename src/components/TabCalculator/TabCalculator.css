@@ -20,9 +20,9 @@
   justify-content: center; /*sets the content as a frame but not yet enough so align content is needed */
   align-content: center; /*sets the content towards the center */
   min-height: 100vh; /* responsive height metrics*/
-  grid-template-columns: repeat(4, 100px);
+  grid-template-columns: repeat(4, 90px);
   /* sets 4 columns each at 100px; note that if there is a space after repeat (eg) this will not work*/
-  grid-template-rows: minmax(120px, auto) repeat(5, 100px);
+  grid-template-rows: minmax(120px, auto) repeat(5, 90px);
   /* minmax is a responsive tool to set min at 120px and auto scales
         next repeat sets 5 rows 100px each */
 }
@@ -80,10 +80,10 @@
 #prev-operand {
   /*previous and current operands are divs*/
   color: #000;
-  font-size: 5rem;
+  font-size: 4rem;
 }
 
 #current-operand {
   color: #000;
-  font-size: 5rem;
+  font-size: 4rem;
 }

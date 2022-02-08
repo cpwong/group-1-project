@@ -36,33 +36,21 @@ function App() {
     }  
   }
   return (
-    <section className='App section content'>
-      <p className='title is-2 has-text-centered'>Info Dashboard</p>
-      <div className='tabs is-toggle is-centered'>
-        <ul>
-          <li>
-            <a className='navbar-item' onClick={() => setActiveTab('home')}>🏠Home</a>
-          </li>
-          <li>
-            <a className='navbar-item' onClick={() => setActiveTab('stocks')}>📈Stocks</a>
-          </li>
-          <li>
-            <a className='navbar-item' onClick={() => setActiveTab('crypto')}>💰Cryptocurrencies</a>
-          </li>
-          <li>
-            <a className='navbar-item' onClick={() => setActiveTab('covid')}>🦠COVID-19</a>
-          </li>
-          <li>
-            <a className='navbar-item' onClick={() => setActiveTab('news')}>📰News</a>
-          </li>
-          <li>
-            <a className='navbar-item' onClick={() => setActiveTab('movies')}>🎬Movies</a>
-          </li>
-          <li>
-            <a className='navbar-item' onClick={() => setActiveTab('calculator')}>➗Calculator</a>
-          </li>
-        </ul>
-      </div>
+    <section className='App content section box'>
+      <nav className='navbar is-fixed-top is-spaced'>      
+      {/* <div className='tabs is-toggle is-medium'> */}
+        <div className='navbar-menu'>
+          <a className='navbar-item' onClick={() => setActiveTab('home')}>🏠Home</a>
+          <a className='navbar-item' onClick={() => setActiveTab('stocks')}>📈Stocks</a>
+          <a className='navbar-item' onClick={() => setActiveTab('crypto')}>💰Crypto-currencies</a>
+          <a className='navbar-item' onClick={() => setActiveTab('covid')}>🦠COVID-19</a>
+          <a className='navbar-item' onClick={() => setActiveTab('news')}>📰News</a>
+          <a className='navbar-item' onClick={() => setActiveTab('movies')}>🎬Movies</a>
+          <a className='navbar-item' onClick={() => setActiveTab('calculator')}>➗Calculator</a>
+        {/* </div> */}
+        </div>
+      </nav>  
+      
       <div className='container'>{showTab()}</div>
     </section>
   );
