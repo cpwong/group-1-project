@@ -21,6 +21,7 @@
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-youtube": "^7.14.0",
     "starwars-names": "^1.6.0",
     "web-vitals": "^2.1.4",
     "iso-3166-1" : "^2.1.0"
