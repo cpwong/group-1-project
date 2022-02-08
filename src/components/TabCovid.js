@@ -11,8 +11,6 @@ export default function TabCovid() {
 
     var holder;
 
-    
-
     const blankForm = {
         pCountry: 'Singapore',
     }
@@ -63,7 +61,7 @@ export default function TabCovid() {
 
   return (
     <div className='TabCovid box'>
-          <h2>COVID-19 CORONAVIRUS PANDEMIC</h2>
+          <h2>CORONAVIRUS PANDEMIC</h2>
           {/*---- User input form ----*/}
           <div className='columns is-vcentered'>
               { /*-- Input text box with Submit button -- */}
@@ -119,13 +117,19 @@ export default function TabCovid() {
               <button className='modal-close is-large' aria-label='close'
                   onClick={handleCloseSearch} />
           </div>
-          <div className='ViewChart block'>
-              <p className='is-size-4 has-text-weight-light has-text-centered'>Reported Cases and Deaths</p>
-              <div id='chartdiv' style={{ width: '100%', height: '700px' }} />
-          </div>
-          <div className='ViewChart block'>
-              <p className='is-size-4 has-text-weight-light has-text-centered'>Vaccination Data</p>
-              <div id='divVaxed' style={{ width: '100%', height: '700px' }} />
+          <div class="columns">
+            <div class="column is-three-fifths">
+                <div className='column block'>
+                    <p className='is-size-4 has-text-weight-light has-text-centered'>Reported Cases and Deaths</p>
+                    <div id='chartdiv' style={{ width: '100%', height: '300px'}} />
+                </div>
+            </div>
+            <div class="column">
+                <div className='column block'>
+                    <p className='is-size-4 has-text-weight-light has-text-centered'>Vaccination Data</p>
+                    <div id='divVaxed' style={{ width: '100%', height: '300px' }} />
+                </div>
+            </div>
           </div>
     </div>
   )
