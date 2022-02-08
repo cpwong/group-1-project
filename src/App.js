@@ -37,7 +37,7 @@ function App() {
   }
   return (
     <section className='App section content'>
-      <p className='title is-2 has-text-centered'>Project Name</p>
+      <p className='title is-2 has-text-centered'>Info Dashboard</p>
       <div className='tabs is-toggle is-centered'>
         <ul>
           <li>
