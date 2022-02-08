@@ -1,10 +1,12 @@
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function ViewChart(props) {
-  const { data } = props;
+  const [data, setData] = useState([]);
+  const { dataChart } = props;
+  console.log("dataChart", dataChart);
 
   useEffect(() => {
     /* Chart code */
@@ -74,7 +76,7 @@ export default function ViewChart(props) {
     );
     valueAxis.axisHeader.children.push(
       am5.Label.new(root, {
-        text: "Value",
+        text: "Exchange Rate",
         fontWeight: "bold",
         paddingBottom: 5,
         paddingTop: 5,
@@ -105,8 +107,8 @@ export default function ViewChart(props) {
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
     let valueSeries1 = chart.series.push(
       am5xy.LineSeries.new(root, {
-        name: "XTD",
-        valueYField: "price1",
+        name: "rate",
+        valueYField: "rate",
         calculateAggregates: true,
         valueXField: "date",
         xAxis: dateAxis,
@@ -134,10 +136,10 @@ export default function ViewChart(props) {
     let firstColor = chart.get("colors").getIndex(0);
     let volumeSeries = chart.series.push(
       am5xy.ColumnSeries.new(root, {
-        name: "XTD",
+        name: "",
         fill: firstColor,
         stroke: firstColor,
-        valueYField: "quantity",
+        valueYField: "volume",
         valueXField: "date",
         valueYGrouped: "sum",
         xAxis: dateAxis,
@@ -214,7 +216,7 @@ export default function ViewChart(props) {
 
     let sbSeries = scrollbar.chart.series.push(
       am5xy.LineSeries.new(root, {
-        valueYField: "price1",
+        valueYField: "rate",
         valueXField: "date",
         xAxis: sbDateAxis,
         yAxis: sbValueAxis,
@@ -228,37 +230,47 @@ export default function ViewChart(props) {
 
     // Generate random data and set on series
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Setting_data
+
     // let data = [];
-    // let price1 = 1000;
-    // let quantity = 10000;
+    let price1 = 1000;
+    let quantity = 10000;
 
-    // for (var i = 1; i < 5000; i++) {
-    //   price1 += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 20);
+    for (var i = 1; i < 5000; i++) {
+      price1 += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 20);
 
-    //   if (price1 < 100) {
-    //     price1 = 100;
-    //   }
+      if (price1 < 100) {
+        price1 = 100;
+      }
 
-    //   quantity += Math.round(
-    //     (Math.random() < 0.5 ? 1 : -1) * Math.random() * 500
-    //   );
+      quantity += Math.round(
+        (Math.random() < 0.5 ? 1 : -1) * Math.random() * 500
+      );
 
-    //   if (quantity < 0) {
-    //     quantity *= -1;
-    //   }
-    //   data.push({
-    //     date: new Date(2010, 0, i).getTime(),
-    //     price1: price1,
-    //     quantity: quantity,
-    //   });
-    // }
+      if (quantity < 0) {
+        quantity *= -1;
+      }
+      data.push({
+        date: new Date(2010, 0, i).getTime(),
+        rate: price1,
+        volume: quantity,
+      });
+    }
+
+    if (dataChart !== null) {
+      setData(dataChart);
+      console.log("data!null: ", data);
+    }
+
+    console.log("data: ", data);
 
     valueSeries1.data.setAll(data);
     volumeSeries.data.setAll(data);
     sbSeries.data.setAll(data);
 
-    // Make stuff animate on load
-    // https://www.amcharts.com/docs/v5/concepts/animations/
+    // valueSeries1.data.setAll(dataChart);
+    // volumeSeries.data.setAll(dataChart);
+    // sbSeries.data.setAll(dataChart);
+
     chart.appear(1000, 100);
   }, []);
 

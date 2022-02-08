@@ -100,7 +100,7 @@ export default function ViewConversion() {
         //   console.log("volume: ", Object.values(objValue)[8]);
         return {
           date: new Date(dateKey),
-          price: parseFloat(Object.values(objValue)[6]),
+          rate: parseFloat(Object.values(objValue)[6]),
           volume: parseFloat(Object.values(objValue)[8]),
         };
       });
@@ -228,7 +228,7 @@ export default function ViewConversion() {
             rate={displayExchange.rate}
           />
         </div>
-        <ViewChart data={cryptoChartData} />
+        <ViewChart dataChart={cryptoChartData} />
       </div>
     </div>
   );
