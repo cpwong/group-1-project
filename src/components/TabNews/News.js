@@ -32,8 +32,19 @@ const News = () => {
       <div>
         <div className='columns'>
           <div className='column'>
-            <input clssName='input' type='text' placeholder='tsla' />
-              <button>Search News</button>
+            <form className='field has-addons' onSubmit={handleSubmit}>            
+              <div className='control'>
+                <input 
+                  className='input' 
+                  type='text' 
+                  placeholder='tsla' />
+              </div>
+              <div className='control'>
+                <button type='submit' className='button is-info'>
+                  Search News
+                </button>
+              </div>
+            </form>
           </div>
           <div className='column'>
             <p className='is-size-4 has-text-right has-text-weight-light'>
