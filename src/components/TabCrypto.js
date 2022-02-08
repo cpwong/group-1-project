@@ -2,38 +2,34 @@
 import ViewConversion from "./TabCrypto/ViewConversion.js";
 import ViewNewsFeed from "./TabCrypto/ViewNewsFeed.js";
 
-
-
-
 export default function TabCrypto() {
   return (
     <div className='TabCrypto box'>
-
-    
-      <section className="section has-background-info-light">
+    <div className='columns'>
+      <div className='column'>
+        <p className='is-size-4 has-text-right has-text-weight-light'>
+        CRYPTO-CURRENCIES DASHBOARD & NEWSFEED
+        </p>
+      </div>
+    </div>    
+      {/* <section className="section has-background-info-light"> */}
         <div className="container">
-          <p className="title is-2 has-text-info-dark mb-5">
-            Crypto-Currencies Dashboard & NewsFeed
-          </p>
-          {/* <p className="subtitle is-6">
-            Crypto-Crypto-Fiat Currency Conversion
-          </p> */}
-
-          <div className="tile is-ancestor buttons are-small">
+          <div className="tile is-ancestor ">
             <div
-              className="tile is-6 is-vertical is-parent"
-              style={{ minWidth: 515 }}
+              className="tile is-vertical is-parent"
+              // style={{ minWidth: 515 }}
             >
               <ViewConversion />
             </div>
-
-            <div className="tile is-4 is-parent" style={{ minWidth: 515 }}>
+            <div className="tile is-parent" 
+              // style={{ minWidth: 515 }}
+            >
               <ViewNewsFeed />
             </div>
 
           </div>
         </div>
-      </section>
+      {/* </section> */}
     </div>
 
 

@@ -33,13 +33,13 @@ export default function ViewNewsFeed(props) {
       className="tile is-child box has-background-primary-light"
       onClick={apiNewsFeed}
     >
-      <p className="title has-text-info-dark  mb-3">NewsFeed</p>
+      <p className="title is-4 has-text-info-dark mb-3">NewsFeed</p>
       <article>
         <div
           className="table-container is-fullheight is-scrollable"
           style={{ overflowY: "scroll", height: 600 }}
         >
-          <table className="table is-striped is-hoverable has-background-info-light">
+          <table className="table is-hoverable">
             <tbody style={{ height: 200 }}>
               {newsArticles.map((news) => (
                 <tr key={uniqueId()}>

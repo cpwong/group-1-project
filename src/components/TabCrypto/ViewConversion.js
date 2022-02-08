@@ -82,10 +82,10 @@ export default function ViewConversion() {
       console.log("Chart Data: ", status);
 
       const timeData = data["Time Series (Digital Currency Daily)"];
-      console.log("timeData: ", timeData);
-      console.log("Object.keys: ", Object.keys(timeData)); // dates string
-      console.log("Object.values: ", Object.values(timeData));
-      console.log("Object.entries: ", Object.entries(timeData));
+      // console.log("timeData: ", timeData);
+      // console.log("Object.keys: ", Object.keys(timeData)); // dates string
+      // console.log("Object.values: ", Object.values(timeData));
+      // console.log("Object.entries: ", Object.entries(timeData));
 
       // How to Filter Dates Objects and Display in Chart JS, ref: https://youtu.be/AEaXyzCElGI
       // Object.entries(): [[keys,objects]] - obj>array
@@ -136,98 +136,99 @@ export default function ViewConversion() {
 
   return (
     <div>
-      <div className="tile is-child box has-background-primary-light">
-        <div className="columns mb-0">
-          <div className="column is-four-fifths">
-            <p className="title is-4 has-text-info-dark">
+      <div className='tile is-child box has-background-primary-light'>
+        <div className='columns is-vcentered'>
+          <div className='column is-four-fifths'>
+            <p className='title is-4 has-text-info-dark'>
               Crypto-to-Fiat/Crypto Converter
             </p>
           </div>
-          <div className="column">
-            <button
-              className="button is-info has-text-weight-bold mb-0"
-              onClick={handleConvert}
-            >
+          <div className='column'>
+            <button className='button is-info' onClick={handleConvert}>
               <span>Convert</span>
             </button>
           </div>
         </div>
-        <div className="box has-background-info-light p-2">
-          <table className="table is-fullwidth mb-2 has-background-primary-light">
-            <tbody>
-              <tr>
-                <td>Crypto:</td>
-                <td>
-                  <input
-                    onChange={handleChange}
-                    value={convertToken.amount}
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    name="amount"
-                    placeholder="Enter amount"
-                    autoFocus
-                  />
-                </td>
-                <td>
-                  <div>
-                    <select
-                      name="from"
-                      value={convertToken.from}
-                      onChange={handleChange}
-                      required
-                      style={{ width: 90 }}
-                    >
-                      <option> Select ... </option>
-                      {tokenList.map((token) => (
-                        <option key={uniqueId()}> {token} </option>
-                      ))}
-                    </select>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td>Fiat/Crypto:</td>
-                <td>
-                  <input
-                    type="number"
-                    readOnly
-                    value={changedAmount}
-                    placeholder="RESULT"
-                  />
-                </td>
-                <td>
+        {/* <div className="box has-background-primary-light p-2"> */}
+        <table className='table is-fullwidth has-background-primary-light'>
+          <tbody>
+            <tr>
+              <td>Crypto:</td>
+              <td>
+                <input
+                  className='input'
+                  onChange={handleChange}
+                  value={convertToken.amount}
+                  type='number'
+                  step='0.01'
+                  min='0'
+                  name='amount'
+                  placeholder='Enter amount'
+                  autoFocus
+                />
+              </td>
+              <td>
+                <div className='select'>
                   <select
-                    name="to"
+                    name='from'
+                    value={convertToken.from}
+                    onChange={handleChange}
+                    required
+                    style={{ width: "120px" }}
+                  >
+                    <option> Select ... </option>
+                    {tokenList.map((token) => (
+                      <option key={uniqueId()}> {token} </option>
+                    ))}
+                  </select>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Fiat/Crypto:</td>
+              <td>
+                <input
+                  className='input'
+                  type='number'
+                  readOnly
+                  value={changedAmount}
+                  placeholder='RESULT'
+                />
+              </td>
+              <td>
+                <div className='select'>
+                  <select
+                    name='to'
                     value={convertToken.to}
                     onChange={handleChange}
                     required
-                    style={{ width: 90 }}
+                    style={{ width: "120px" }}
                   >
                     <option> Select ... </option>
-                    <optgroup label="Fiat">
+                    <optgroup label='Fiat'>
                       {fiatList.map((fiat) => (
                         <option key={uniqueId()}> {fiat} </option>
                       ))}
                     </optgroup>
-                    <optgroup label="Crypto">
+                    <optgroup label='Crypto'>
                       {tokenList.map((token) => (
                         <option key={uniqueId()}> {token} </option>
                       ))}
                     </optgroup>
                   </select>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-          <ViewExchange
-            from={displayExchange.from}
-            to={displayExchange.to}
-            rate={displayExchange.rate}
-          />
-        </div>
+        <ViewExchange
+          from={displayExchange.from}
+          to={displayExchange.to}
+          rate={displayExchange.rate}
+        />
+        {/* </div> */}
         {/* <ViewChart data={cryptoChartData} /> */}
       </div>
     </div>
